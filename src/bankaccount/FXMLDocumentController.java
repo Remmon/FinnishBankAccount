@@ -34,7 +34,6 @@ public class FXMLDocumentController implements Initializable {
     private TextField smallBankNumberField;
     @FXML
     private Label longBankNumberLabel;
-    FinnishBankAccountNumber fban;
     @FXML
     private Label checkDigitCorrectLabel;
     @FXML
@@ -43,30 +42,30 @@ public class FXMLDocumentController implements Initializable {
     private Label shortBankNumberFormatLabel;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        fban = new FinnishBankAccountNumber();
+    public void initialize(URL url, ResourceBundle rb) { // Initializes the GUI
         checkDigitCorrectLabel.setText("");
         longBankNumberLabel.setText("");
         checkDigitNumberLabel.setText("");
-        // TODO
+        
     }    
 
     @FXML
     private void convertBankNumberButtonAction(ActionEvent event) {
-        fban.setShortBankNumber(smallBankNumberField.getText());
+        FinnishBankAccountNumber fban = new FinnishBankAccountNumber(smallBankNumberField.getText()); // new FinnishBankAccountNumber instance is created
+        
         if (fban.convertBankNumber()){
             shortBankNumberFormatLabel.setText("");
-            longBankNumberLabel.setText(fban.getLongBankNumberString());
+            longBankNumberLabel.setText(fban.getLongBankNumberString());  // labels text is set to the long bank account number format
             checkDigitNumberLabel.setText(String.valueOf(fban.getCheckDigitValue()));
-            if (fban.getCheckDigitCorrect()){
+            if (fban.getCheckDigitCorrect()){  //Check digit was correct
                 checkDigitCorrectLabel.setText("Correct");
                 checkDigitCorrectLabel.setTextFill(Color.GREEN);
-            } else {
+            } else { //Check digit was not correct
                 checkDigitCorrectLabel.setText("False");
                 checkDigitCorrectLabel.setTextFill(Color.RED);
 
             }
-        } else {
+        } else { //short format bank account number was in an incorrect format.
             shortBankNumberFormatLabel.setText("Incorrect bank account number format");
         }
         
